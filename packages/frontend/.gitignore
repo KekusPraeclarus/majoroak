@@ -1,0 +1,10 @@
+node_modules
+dist
+public
+.env
+.env.local
+*.local
+
+# Keep the Pages SPA redirect rule tracked inside the generated public dir.
+!public/_redirects
+!public/cover.png

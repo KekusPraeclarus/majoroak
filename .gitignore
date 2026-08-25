@@ -1,0 +1,43 @@
+# Compiler
+cache/
+out/
+
+# Workspace
+node_modules/
+dist/
+
+# Broadcast logs may include private data
+broadcast/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+
+# Python bytecode from brand generators
+__pycache__/
+*.pyc
+
+# Brand specimen proof. It renders from the vendored fonts, so it is generated.
+docs/brand/tokens/specimen.html
+docs/brand/tokens/specimen.png
+
+# Upstream font archives, cached by script/brand-fonts.sh. The subsets are committed.
+packages/frontend/scripts/.font-cache/
+
+# Generated brand rasters and copied public vectors
+packages/frontend/public/
+
+# Assurance reports and fuzzer export
+gambit_out/
+reports/
+lcov.info
+crytic-export/
+slither_results.json
+medusa*
+!packages/otc/medusa.json
+*.sbom.json
+test/fuzz/corpus/covered.*

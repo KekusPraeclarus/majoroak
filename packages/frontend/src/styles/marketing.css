@@ -1,0 +1,381 @@
+/* The marketing pages. Read docs/brand/web-application.md and layout-and-grid.md. */
+
+.skip-link {
+  position: absolute;
+  top: var(--mo-space-2);
+  left: var(--mo-space-2);
+  z-index: var(--mo-z-toast);
+  padding: var(--mo-space-3) var(--mo-space-4);
+  background: var(--mo-surface-raised);
+  border: var(--mo-border-width-hairline) solid var(--mo-border);
+  border-radius: var(--mo-radius-2);
+  font-size: var(--mo-text-body-sm);
+  font-weight: var(--mo-weight-medium);
+  transform: translateY(calc(-100% - var(--mo-space-4)));
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* The hero sets its own top space, so the page frame adds none. */
+.page.landing {
+  padding-top: 0;
+}
+
+/* ---------- hero ---------- */
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-block: var(--mo-space-20);
+}
+
+@media (min-width: 1024px) {
+  .hero {
+    padding-block: var(--mo-space-24);
+  }
+}
+
+/*
+ * The stacked lockup carries the name, so it holds a size where the wordmark
+ * reads. The stacked minimum is 96px, and the descriptor needs far more.
+ */
+.hero-lockup {
+  display: block;
+  width: 192px;
+}
+
+.hero-lockup.arrive {
+  opacity: 0;
+  animation: hero-mark var(--mo-duration-panel) var(--mo-ease-enter) forwards;
+}
+
+@media (min-width: 768px) {
+  .hero-lockup {
+    width: 224px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-lockup {
+    width: 256px;
+  }
+}
+
+.hero-lockup img,
+.hero-lockup-flat {
+  display: block;
+  width: 100%;
+  aspect-ratio: 420 / 674;
+}
+
+.hero-lockup-flat {
+  background: currentColor;
+  -webkit-mask: var(--lockup) center / contain no-repeat;
+  mask: var(--lockup) center / contain no-repeat;
+}
+
+/* Metal on a dark field only. Read docs/brand/logo.md. */
+.hero-lockup-flat {
+  display: none;
+}
+
+[data-theme="light"] .hero-lockup-metal {
+  display: none;
+}
+
+[data-theme="light"] .hero-lockup-flat {
+  display: block;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) .hero-lockup-metal {
+    display: none;
+  }
+
+  :root:not([data-theme]) .hero-lockup-flat {
+    display: block;
+  }
+}
+
+/* Forced colours and print take the flat mark. Read docs/brand/imagery-and-texture.md. */
+@media (forced-colors: active), print {
+  .hero-lockup-metal {
+    display: none;
+  }
+
+  .hero-lockup-flat {
+    display: block;
+  }
+}
+
+/* The one marketing animation. Read docs/brand/motion/inventory.md. */
+@keyframes hero-mark {
+  from {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* A reduce request keeps the mark, and drops the scale. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-lockup.arrive {
+    opacity: 1;
+    animation: none;
+  }
+}
+
+/* The stacked lockup keeps 0.25 of the emblem width clear. This doubles it. */
+.hero-title {
+  margin-top: var(--mo-space-16);
+  font-family: var(--mo-font-display);
+  font-weight: 500;
+  font-variation-settings: "opsz" 72, "wdth" 100, "wght" 500;
+  font-size: var(--mo-text-display-2);
+  line-height: var(--mo-leading-h1);
+}
+
+.hero-sub {
+  margin-top: var(--mo-space-6);
+  max-width: 56ch;
+  font-size: var(--mo-text-body-lg);
+  line-height: var(--mo-leading-body);
+  color: var(--mo-text-secondary);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--mo-space-3);
+  margin-top: var(--mo-space-10);
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--mo-space-2) var(--mo-space-6);
+  margin-top: var(--mo-space-8);
+  text-align: center;
+  font-family: var(--mo-font-label);
+  font-size: var(--mo-text-label);
+  letter-spacing: var(--mo-tracking-label-md);
+  text-transform: uppercase;
+  color: var(--mo-text-muted);
+}
+
+/* One line each on a narrow screen, so no term sits alone on a wrapped row. */
+@media (max-width: 560px) {
+  .hero-meta {
+    flex-direction: column;
+    gap: var(--mo-space-2);
+  }
+}
+
+.hero-rule {
+  margin-bottom: var(--mo-space-16);
+}
+
+/* ---------- steps ---------- */
+
+.steps {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--mo-space-4);
+}
+
+@media (min-width: 768px) {
+  .steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-3);
+  padding: var(--mo-space-8);
+  background: var(--mo-surface);
+  border: var(--mo-border-width-hairline) solid var(--mo-border);
+  border-radius: var(--mo-radius-2);
+}
+
+.step-n {
+  font-family: var(--mo-font-mono);
+  font-size: var(--mo-text-mono);
+  font-variant-numeric: slashed-zero tabular-nums;
+  color: var(--mo-accent-text);
+}
+
+.step-title {
+  font-size: var(--mo-text-h4);
+  font-weight: var(--mo-weight-semibold);
+  line-height: var(--mo-leading-h4);
+}
+
+.step p {
+  font-size: var(--mo-text-body-sm);
+  line-height: var(--mo-leading-body-sm);
+  color: var(--mo-text-secondary);
+}
+
+/* ---------- limits ---------- */
+
+.limit-list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--mo-border-width-hairline);
+  background: var(--mo-border);
+  border: var(--mo-border-width-hairline) solid var(--mo-border);
+  border-radius: var(--mo-radius-2);
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .limit-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.limit-list li {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-2);
+  padding: var(--mo-space-8);
+  background: var(--mo-surface);
+}
+
+.limit-list h3 {
+  font-size: var(--mo-text-h4);
+  font-weight: var(--mo-weight-semibold);
+  line-height: var(--mo-leading-h4);
+}
+
+.limit-list p {
+  font-size: var(--mo-text-body-sm);
+  line-height: var(--mo-leading-body-sm);
+  color: var(--mo-text-secondary);
+  max-width: 60ch;
+}
+
+.stats-note {
+  margin-top: var(--mo-space-4);
+  font-size: var(--mo-text-caption);
+  line-height: var(--mo-leading-caption);
+  color: var(--mo-text-muted);
+}
+
+/* ---------- the name ---------- */
+
+/*
+ * The name note reads in two columns, so the frame follows the measure instead
+ * of stretching past it. Read docs/brand/layout-and-grid.md.
+ */
+.name-note {
+  display: grid;
+  gap: var(--mo-space-6);
+  padding: var(--mo-space-10) var(--mo-space-8);
+  background: var(--mo-surface-sunken);
+  border: var(--mo-border-width-hairline) solid var(--mo-border-subtle);
+  border-radius: var(--mo-radius-2);
+}
+
+.name-note-body {
+  max-width: 62ch;
+}
+
+@media (min-width: 900px) {
+  .name-note {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 5fr);
+    gap: var(--mo-space-12);
+    align-items: start;
+  }
+}
+
+.name-note .title-section {
+  margin-top: var(--mo-space-2);
+  font-size: var(--mo-text-h3);
+  line-height: var(--mo-leading-h3);
+}
+
+.name-note p {
+  margin-block: 0 var(--mo-space-6);
+  font-family: var(--mo-font-display);
+  font-variation-settings: "opsz" 18, "wdth" 100, "wght" 400;
+  font-size: var(--mo-text-body);
+  line-height: var(--mo-leading-body);
+  color: var(--mo-text-secondary);
+}
+
+/* ---------- closing ---------- */
+
+.closing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: var(--mo-space-20);
+  padding-top: var(--mo-space-16);
+  border-top: var(--mo-border-width-hairline) solid var(--mo-border-subtle);
+}
+
+.closing.bare {
+  margin-top: var(--mo-space-16);
+  padding-top: var(--mo-space-12);
+}
+
+.closing-lede {
+  margin-top: var(--mo-space-4);
+  max-width: 52ch;
+  font-size: var(--mo-text-body-lg);
+  color: var(--mo-text-secondary);
+}
+
+.closing-risk {
+  margin-top: var(--mo-space-8);
+  font-size: var(--mo-text-caption);
+  line-height: var(--mo-leading-caption);
+  color: var(--mo-text-muted);
+}
+
+/* ---------- not found ---------- */
+
+.not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--mo-space-4);
+  padding-block: var(--mo-space-20);
+  text-align: center;
+}
+
+.not-found-mark {
+  width: 96px;
+  height: 96px;
+  margin-bottom: var(--mo-space-4);
+  background: var(--mo-text-muted);
+  -webkit-mask: var(--lockup) center / contain no-repeat;
+  mask: var(--lockup) center / contain no-repeat;
+}
+
+.not-found p {
+  margin-bottom: var(--mo-space-4);
+  color: var(--mo-text-secondary);
+}
+
+/*
+ * The about page sets one measure for every block. 600px matches 68 characters
+ * of Playfair at body size. Read docs/brand/layout-and-grid.md.
+ */
+.prose-column {
+  max-width: 600px;
+  margin-inline: auto;
+}

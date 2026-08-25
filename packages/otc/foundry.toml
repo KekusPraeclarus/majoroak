@@ -1,0 +1,87 @@
+# Foundry v1.7.1
+# solc 0.8.36
+# forge-std v1.16.1 (620536fa5277db4e3fd46772d5cbc1ea0696fb43)
+# OpenZeppelin Contracts v5.6.1 (5fd1781b1454fd1ef8e722282f86f9293cacf256)
+
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+test = "test"
+script = "script"
+solc = "0.8.36"
+auto_detect_solc = false
+evm_version = "cancun"
+optimizer = true
+optimizer_runs = 200
+via_ir = true
+ffi = false
+fs_permissions = [
+    { access = "read", path = "./" },
+    { access = "read", path = "../../README.md" },
+    { access = "read", path = "../../docs/knowledge/evm/robinhood/" },
+]
+
+# Smoke lite:  forge test --match-path 'test/smoke/lite/*'
+# Smoke deep:  forge test --match-path 'test/smoke/deep/*'
+# Smoke all:   forge test --match-path 'test/smoke/*'
+# Invariants:  forge test --match-path 'test/invariants/*'
+# Fork:        script/fork.sh
+# Assurance:   script/assurance.sh pr
+
+gas_reports = ["Escrow", "EscrowFactory", "FeeTreasury"]
+
+[profile.ci.fuzz]
+runs = 64
+
+[profile.ci.invariant]
+runs = 32
+depth = 25
+fail_on_revert = false
+shrink_run_limit = 5000
+
+[profile.nightly.fuzz]
+runs = 5000
+
+[profile.nightly.invariant]
+runs = 512
+depth = 150
+fail_on_revert = false
+shrink_run_limit = 5000
+
+[profile.mutation]
+via_ir = false
+optimizer = false
+
+[profile.mutation.fuzz]
+runs = 8
+
+[profile.mutation.invariant]
+runs = 8
+depth = 10
+fail_on_revert = false
+
+[profile.default.fuzz]
+runs = 256
+
+[profile.default.invariant]
+runs = 256
+depth = 100
+fail_on_revert = false
+shrink_run_limit = 5000
+
+[fmt]
+quote_style = "double"
+tab_width = 4
+line_length = 120
+bracket_spacing = false
+
+[rpc_endpoints]
+robinhood = "${RH_RPC_URL}"
+robinhood_testnet = "${RH_TESTNET_RPC_URL}"
+robinhood_public = "https://rpc.mainnet.chain.robinhood.com"
+robinhood_testnet_public = "https://rpc.testnet.chain.robinhood.com"
+
+[etherscan]
+robinhood = { key = "empty", url = "https://robinhoodchain.blockscout.com/api/", chain = 4663 }
+robinhood_testnet = { key = "empty", url = "https://explorer.testnet.chain.robinhood.com/api/", chain = 46630 }

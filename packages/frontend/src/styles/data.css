@@ -1,0 +1,459 @@
+/* Tables, receipts, key values, filters, and the price chart. */
+
+.table-frame {
+  background: var(--mo-surface);
+  border: var(--mo-border-width-hairline) solid var(--mo-border);
+  border-radius: var(--mo-radius-2);
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--mo-text-body-sm);
+}
+
+.table th,
+.table td {
+  padding: var(--mo-space-2) var(--mo-space-4);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.table thead th {
+  height: var(--mo-control-height);
+  padding-block: var(--mo-space-2);
+  background: var(--mo-surface-sunken);
+  border-bottom: var(--mo-border-width-hairline) solid var(--mo-border);
+  font-family: var(--mo-font-label);
+  font-size: var(--mo-text-label-sm);
+  font-weight: var(--mo-weight-medium);
+  letter-spacing: var(--mo-tracking-label-sm);
+  text-transform: uppercase;
+  color: var(--mo-text-secondary);
+  white-space: nowrap;
+}
+
+.table th.num,
+.table td.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.table td.num.muted {
+  color: var(--mo-text-muted);
+}
+
+.table th.act,
+.table td.act {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.table tbody tr {
+  height: var(--mo-row-height);
+  border-bottom: var(--mo-border-width-hairline) solid var(--mo-border-subtle);
+  transition: background-color var(--mo-duration-instant) var(--mo-ease-standard);
+}
+
+.table tbody:last-child tr:last-child {
+  border-bottom: none;
+}
+
+.table tbody tr.row-link {
+  cursor: pointer;
+}
+
+.table tbody tr.row-link:hover {
+  background: var(--mo-surface-raised);
+}
+
+.table tr.group-row td {
+  height: auto;
+  padding-block: var(--mo-space-3);
+  background: var(--mo-surface-sunken);
+  border-bottom: var(--mo-border-width-hairline) solid var(--mo-border-subtle);
+  font-family: var(--mo-font-label);
+  font-size: var(--mo-text-label-sm);
+  font-weight: var(--mo-weight-medium);
+  letter-spacing: var(--mo-tracking-label-sm);
+  text-transform: uppercase;
+  color: var(--mo-text-secondary);
+}
+
+.table .cell-token a {
+  display: flex;
+  align-items: center;
+  gap: var(--mo-space-3);
+  min-width: 0;
+}
+
+.table .cell-token .sym {
+  display: flex;
+  align-items: center;
+  gap: var(--mo-space-1);
+  font-weight: var(--mo-weight-medium);
+}
+
+.table .cell-token .sub {
+  font-size: var(--mo-text-caption);
+  color: var(--mo-text-muted);
+}
+
+.table .cell-expiry {
+  color: var(--mo-text-secondary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/*
+ * A table becomes a list of cards below 1280px. A full precision amount needs
+ * the full width, and a number that breaks across two lines misreads.
+ * Read docs/brand/components.md.
+ */
+@media (max-width: 1279px) {
+  /* The card list keeps one readable column, so a row does not stretch. */
+  .list-page > * {
+    width: 100%;
+    max-width: var(--mo-column-card);
+    margin-inline: auto;
+  }
+
+  .table-frame {
+    background: none;
+    border: none;
+    border-radius: 0;
+    overflow: visible;
+  }
+
+  .table thead {
+    display: none;
+  }
+
+  .table,
+  .table tbody,
+  .table tr,
+  .table td {
+    display: block;
+    width: 100%;
+  }
+
+  .table tbody tr {
+    position: relative;
+    height: auto;
+    padding: var(--mo-space-4);
+    margin-bottom: var(--mo-space-3);
+    background: var(--mo-surface);
+    border: var(--mo-border-width-hairline) solid var(--mo-border);
+    border-radius: var(--mo-radius-2);
+  }
+
+  .table tbody:last-child tr:last-child {
+    border-bottom: var(--mo-border-width-hairline) solid var(--mo-border);
+  }
+
+  .table tr.group-row {
+    margin-bottom: var(--mo-space-2);
+    padding: 0;
+    background: none;
+    border: none;
+  }
+
+  .table tr.group-row td {
+    padding: var(--mo-space-4) 0 var(--mo-space-1);
+    background: none;
+    border: none;
+  }
+
+  .table td {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--mo-space-1) var(--mo-space-4);
+    padding: var(--mo-space-1) 0;
+    text-align: right;
+    overflow-wrap: anywhere;
+  }
+
+  /* A long figure moves to its own line instead of overflowing the card. */
+  .table td.num {
+    white-space: normal;
+  }
+
+  .table td::before {
+    content: attr(data-label);
+    font-family: var(--mo-font-label);
+    font-size: var(--mo-text-label-sm);
+    font-weight: var(--mo-weight-medium);
+    letter-spacing: var(--mo-tracking-label-sm);
+    text-transform: uppercase;
+    color: var(--mo-text-secondary);
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .table td.cell-token {
+    padding-right: 96px;
+    padding-bottom: var(--mo-space-3);
+    text-align: left;
+  }
+
+  .table td.cell-token::before,
+  .table td.cell-status::before,
+  .table td.act::before {
+    content: none;
+  }
+
+  .table td.cell-status {
+    position: absolute;
+    top: var(--mo-space-4);
+    right: var(--mo-space-4);
+    width: auto;
+    padding: 0;
+  }
+
+  .table td.act {
+    padding-top: var(--mo-space-4);
+  }
+
+  .table td.act .btn {
+    width: 100%;
+    height: var(--mo-control-height);
+  }
+
+  /* In card mode a row is a card that links. Read docs/brand/motion/inventory.md. */
+  @media (hover: hover) {
+    .table tbody tr.row-link {
+      transition:
+        background-color var(--mo-duration-instant) var(--mo-ease-standard),
+        border-color var(--mo-duration-fast) var(--mo-ease-standard),
+        transform var(--mo-duration-fast) var(--mo-ease-standard);
+    }
+
+    .table tbody tr.row-link:hover {
+      border-color: var(--mo-border-interactive);
+      transform: translateY(-1px);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .table tbody tr.row-link:hover {
+        transform: none;
+      }
+    }
+  }
+}
+
+/* ---------- receipt and key values ---------- */
+
+.receipt {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-2);
+  font-size: var(--mo-text-body-sm);
+}
+
+.receipt-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--mo-space-1) var(--mo-space-6);
+  color: var(--mo-text-secondary);
+}
+
+.receipt-row .num {
+  color: var(--mo-text-primary);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.receipt-row.total {
+  margin-top: var(--mo-space-1);
+  padding-top: var(--mo-space-3);
+  border-top: var(--mo-border-width-hairline) solid var(--mo-border-subtle);
+  font-weight: var(--mo-weight-semibold);
+  color: var(--mo-text-primary);
+}
+
+.kv-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.kv {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--mo-space-1) var(--mo-space-6);
+  padding-block: var(--mo-space-3);
+  font-size: var(--mo-text-body-sm);
+  border-bottom: var(--mo-border-width-hairline) solid var(--mo-border-subtle);
+}
+
+.kv:first-child {
+  padding-top: 0;
+}
+
+.kv:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.kv .k {
+  color: var(--mo-text-secondary);
+  white-space: nowrap;
+}
+
+.kv .v {
+  min-width: 0;
+  text-align: right;
+  word-break: break-word;
+}
+
+.kv .v a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mo-space-1);
+  color: var(--mo-accent-text);
+}
+
+.kv .v a:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ---------- filters ---------- */
+
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--mo-space-2);
+  margin-bottom: var(--mo-space-6);
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mo-space-2);
+  height: var(--mo-control-height);
+  padding-inline: var(--mo-space-3);
+  background: var(--mo-surface);
+  border: var(--mo-border-width-hairline) solid var(--mo-border);
+  border-radius: var(--mo-radius-2);
+  font-size: var(--mo-text-body-sm);
+  font-weight: var(--mo-weight-medium);
+  color: var(--mo-text-secondary);
+  transition:
+    border-color var(--mo-duration-instant) var(--mo-ease-standard),
+    color var(--mo-duration-instant) var(--mo-ease-standard);
+}
+
+.filter-chip:hover {
+  border-color: var(--mo-border-interactive);
+  color: var(--mo-text-primary);
+}
+
+.filter-chip[aria-expanded="true"],
+.filter-chip[aria-pressed="true"] {
+  background: var(--mo-surface-raised);
+  border-color: var(--mo-border-interactive);
+  color: var(--mo-text-primary);
+}
+
+.filter-search {
+  flex: 1 1 220px;
+  max-width: 320px;
+}
+
+.filter-count {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  font-size: var(--mo-text-caption);
+  color: var(--mo-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- chart ---------- */
+
+.chart {
+  position: relative;
+  padding: var(--mo-space-4);
+  background: var(--mo-surface-sunken);
+  border: var(--mo-border-width-hairline) solid var(--mo-border-subtle);
+  border-radius: var(--mo-radius-2);
+}
+
+.chart-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--mo-space-4);
+  margin-bottom: var(--mo-space-3);
+}
+
+.chart-head .v {
+  font-size: var(--mo-text-body-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.chart-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  cursor: crosshair;
+}
+
+.chart-tip {
+  position: absolute;
+  z-index: var(--mo-z-tooltip);
+  pointer-events: none;
+  transform: translate(-50%, -130%);
+  padding: var(--mo-space-2) var(--mo-space-3);
+  background: var(--mo-surface-raised);
+  border: var(--mo-border-width-hairline) solid var(--mo-border);
+  border-radius: var(--mo-radius-2);
+  font-size: var(--mo-text-micro);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.chart-tip .tip-sub {
+  color: var(--mo-text-muted);
+}
+
+.price-line {
+  fill: none;
+  stroke: var(--mo-accent-text);
+  stroke-width: 1.5;
+}
+
+.grid-line {
+  stroke: var(--mo-border-subtle);
+}
+
+.cross-line {
+  stroke: var(--mo-text-muted);
+}
+
+.cross-dot {
+  fill: var(--mo-accent-text);
+  stroke: var(--mo-surface-sunken);
+}
+
+.ref-line {
+  stroke: var(--mo-text-muted);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+}
+
+.axis-t,
+.ref-label {
+  fill: var(--mo-text-muted);
+  font-family: var(--mo-font-ui);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}

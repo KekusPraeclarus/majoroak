@@ -1,0 +1,21 @@
+name = "majoroak-indexer"
+main = "src/index.ts"
+compatibility_date = "2026-08-14"
+
+[triggers]
+crons = ["* * * * *"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "majoroak-index"
+database_id = "5e13681b-f872-403d-8d76-7d124e4ced09"
+migrations_dir = "migrations"
+
+[vars]
+CHAIN_ID = "4663"
+FACTORY_ADDRESS = "0x3509dC2a20D81F8f0777Abb637A7F128886a568E"
+START_BLOCK = "42497555"
+CONFIRMATIONS = "8"
+RANGE_SIZE = "2000"
+REWIND_BLOCKS = "32"
+FRONTEND_ORIGIN = "https://majoroak.app"

@@ -1,0 +1,460 @@
+/* Listings strip, narrative sections, empty states, modal, legal prose. */
+
+/* No card. The row spans the shell and centres, so no item stands alone. */
+.strip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--mo-space-5);
+  margin-top: var(--mo-space-16);
+  padding-top: var(--mo-space-10);
+  border-top: var(--mo-border-width-hairline) solid var(--mo-border-subtle);
+  text-align: center;
+}
+
+.strip-title {
+  color: var(--mo-text-muted);
+}
+
+.strip-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--mo-space-4) var(--mo-space-8);
+}
+
+/* Narrow screens pair the markets, so no single item sits on its own row. */
+@media (max-width: 560px) {
+  .strip-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--mo-space-4);
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .strip-item {
+    justify-content: center;
+  }
+}
+
+.strip-item {
+  display: flex;
+  align-items: center;
+  gap: var(--mo-space-2);
+  /* The row keeps a 44px target without moving the items apart. */
+  padding-block: var(--mo-space-3);
+  margin-block: calc(var(--mo-space-3) * -1);
+  font-size: var(--mo-text-body-sm);
+  font-weight: var(--mo-weight-medium);
+  color: var(--mo-text-secondary);
+  transition: color var(--mo-duration-instant) var(--mo-ease-standard);
+}
+
+.strip-item:hover {
+  color: var(--mo-text-primary);
+}
+
+.strip-item .n {
+  color: var(--mo-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- narrative ---------- */
+
+.narrative {
+  margin-top: var(--mo-space-20);
+}
+
+@media (min-width: 1024px) {
+  .narrative {
+    margin-top: var(--mo-space-24);
+  }
+}
+
+.about {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--mo-space-10);
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .about {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--mo-space-16);
+  }
+}
+
+.about-text p {
+  margin-top: var(--mo-space-4);
+  color: var(--mo-text-secondary);
+  max-width: 68ch;
+}
+
+.stats-head {
+  display: flex;
+  align-items: center;
+  gap: var(--mo-space-2);
+  margin-bottom: var(--mo-space-3);
+  font-family: var(--mo-font-label);
+  font-size: var(--mo-text-label);
+  letter-spacing: var(--mo-tracking-label);
+  text-transform: uppercase;
+  color: var(--mo-text-secondary);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--mo-border-width-hairline);
+  background: var(--mo-border);
+  border: var(--mo-border-width-hairline) solid var(--mo-border);
+  border-radius: var(--mo-radius-2);
+  overflow: hidden;
+}
+
+.stat-tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--mo-space-6);
+  min-height: 116px;
+  padding: var(--mo-space-6);
+  background: var(--mo-surface);
+}
+
+.stat-tile .l {
+  font-family: var(--mo-font-label);
+  font-size: var(--mo-text-label);
+  letter-spacing: var(--mo-tracking-label-md);
+  text-transform: uppercase;
+  color: var(--mo-text-secondary);
+}
+
+.stat-tile .v {
+  font-size: var(--mo-text-h3);
+  font-weight: var(--mo-weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+.dot-live {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--mo-radius-full);
+  background: var(--mo-success-text);
+  flex-shrink: 0;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--mo-space-4);
+}
+
+@media (min-width: 768px) {
+  .feature-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.feature {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-3);
+  padding: var(--mo-space-8);
+  background: var(--mo-surface);
+  border: var(--mo-border-width-hairline) solid var(--mo-border);
+  border-radius: var(--mo-radius-2);
+}
+
+.feature h3 {
+  font-size: var(--mo-text-h4);
+  font-weight: var(--mo-weight-semibold);
+  line-height: var(--mo-leading-h4);
+}
+
+.feature p {
+  font-size: var(--mo-text-body-sm);
+  line-height: var(--mo-leading-body-sm);
+  color: var(--mo-text-secondary);
+}
+
+.proof-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-4);
+  font-size: var(--mo-text-body-sm);
+  color: var(--mo-text-secondary);
+}
+
+.proof-list li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--mo-space-1);
+  padding-bottom: var(--mo-space-4);
+  border-bottom: var(--mo-border-width-hairline) solid var(--mo-border-subtle);
+}
+
+.proof-list li:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+/* A grid item stretches by default, and a link must not claim the whole row. */
+.proof-list a {
+  justify-self: start;
+}
+
+@media (min-width: 560px) {
+  .proof-list li {
+    grid-template-columns: 160px minmax(0, 1fr);
+    gap: var(--mo-space-4);
+    align-items: baseline;
+  }
+}
+
+/* A full address is 42 characters. It wraps rather than pushing past the shell. */
+.proof-list .mono {
+  display: inline;
+  overflow-wrap: anywhere;
+}
+
+.proof-list .mono svg {
+  vertical-align: -2px;
+}
+
+.proof-list .k {
+  font-family: var(--mo-font-label);
+  font-size: var(--mo-text-label);
+  letter-spacing: var(--mo-tracking-label-md);
+  text-transform: uppercase;
+  color: var(--mo-text-muted);
+}
+
+/* ---------- empty states ---------- */
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--mo-space-4);
+  padding: var(--mo-space-16) var(--mo-space-4);
+  text-align: center;
+  color: var(--mo-text-secondary);
+}
+
+.empty.inline {
+  padding-block: var(--mo-space-10);
+}
+
+.empty .lozenge {
+  opacity: 0.6;
+}
+
+.empty p {
+  max-width: 46ch;
+}
+
+.empty a {
+  color: var(--mo-accent-text);
+  font-weight: var(--mo-weight-medium);
+}
+
+.empty a:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ---------- modal ---------- */
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: var(--mo-z-scrim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--mo-space-5);
+  background: var(--mo-scrim);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--mo-duration-panel-exit) var(--mo-ease-exit);
+}
+
+.scrim[data-state="open"] {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity var(--mo-duration-panel) var(--mo-ease-enter);
+}
+
+.modal {
+  position: relative;
+  z-index: var(--mo-z-modal);
+  width: min(480px, 100%);
+  max-height: calc(100vh - var(--mo-space-10));
+  overflow-y: auto;
+  background: var(--mo-surface-overlay);
+  border: var(--mo-border-width-hairline) solid var(--mo-border);
+  border-radius: var(--mo-radius-2);
+  box-shadow: var(--mo-elevation-3);
+  opacity: 0;
+  transform: translateY(var(--mo-distance-small));
+  transition:
+    opacity var(--mo-duration-panel-exit) var(--mo-ease-exit),
+    transform var(--mo-duration-panel-exit) var(--mo-ease-exit);
+}
+
+.scrim[data-state="open"] .modal {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity var(--mo-duration-panel) var(--mo-ease-enter),
+    transform var(--mo-duration-panel) var(--mo-ease-enter);
+}
+
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mo-space-4);
+  min-height: 56px;
+  padding: var(--mo-space-4) var(--mo-space-4) var(--mo-space-4) var(--mo-space-6);
+  border-bottom: var(--mo-border-width-hairline) solid var(--mo-border-subtle);
+}
+
+.modal-head h2 {
+  font-size: var(--mo-text-h4);
+  font-weight: var(--mo-weight-semibold);
+  line-height: var(--mo-leading-h4);
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-4);
+  padding: var(--mo-space-6);
+  font-size: var(--mo-text-body-sm);
+  line-height: var(--mo-leading-body);
+  color: var(--mo-text-secondary);
+}
+
+@media (min-width: 768px) {
+  .modal-body {
+    padding: var(--mo-space-8);
+  }
+}
+
+.modal-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--mo-space-3);
+  padding: var(--mo-space-4) var(--mo-space-6);
+  border-top: var(--mo-border-width-hairline) solid var(--mo-border-subtle);
+}
+
+.modal-seal {
+  display: flex;
+  align-items: center;
+  gap: var(--mo-space-3);
+  color: var(--mo-accent-text);
+}
+
+/* ---------- legal prose ---------- */
+
+.prose {
+  font-family: var(--mo-font-display);
+  font-variation-settings: "opsz" 14, "wdth" 100, "wght" 400;
+  font-size: var(--mo-text-body);
+  line-height: var(--mo-leading-body);
+  color: var(--mo-text-primary);
+}
+
+.prose h2 {
+  margin-top: var(--mo-space-10);
+  margin-bottom: var(--mo-space-3);
+  font-family: var(--mo-font-display);
+  font-variation-settings: "opsz" 24, "wdth" 100, "wght" 500;
+  font-size: var(--mo-text-h3);
+  font-weight: 500;
+  line-height: var(--mo-leading-h3);
+}
+
+.prose h2:first-child {
+  margin-top: 0;
+}
+
+.prose p {
+  margin-bottom: var(--mo-space-4);
+  max-width: 68ch;
+}
+
+.prose ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-2);
+  margin-bottom: var(--mo-space-4);
+  max-width: 68ch;
+}
+
+.prose li {
+  display: flex;
+  gap: var(--mo-space-3);
+}
+
+.prose li::before {
+  content: "";
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  margin-top: 0.55em;
+  background: var(--mo-accent-text);
+  transform: rotate(45deg);
+}
+
+.prose a {
+  color: var(--mo-accent-text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.prose strong {
+  font-weight: 600;
+  font-variation-settings: "opsz" 14, "wdth" 100, "wght" 600;
+}
+
+/*
+ * A record row inside prose keeps the two columns of .proof-list. It carries its
+ * own label, so it drops the prose bullet. Read docs/brand/components.md.
+ */
+.prose .proof-list li {
+  display: grid;
+  gap: var(--mo-space-1);
+}
+
+.prose .proof-list li::before {
+  content: none;
+}
+
+@media (min-width: 560px) {
+  .prose .proof-list li {
+    gap: var(--mo-space-4);
+  }
+}
+
+/*
+ * A measured value is a figure, so it takes the interface face and tabular
+ * figures. Playfair oldstyle figures stay in the article body. Read
+ * docs/brand/typography.md.
+ */
+.proof-list .v {
+  font-family: var(--mo-font-ui);
+  font-variant-numeric: tabular-nums;
+}
+
+/* A note about the figures above sits below them and reads as apparatus. */
+.prose-note {
+  max-width: 68ch;
+  font-size: var(--mo-text-body-sm);
+  color: var(--mo-text-muted);
+}

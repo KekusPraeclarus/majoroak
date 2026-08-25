@@ -1,0 +1,821 @@
+/* Fields, inputs, selects, buttons, chips, notices. Read docs/brand/components.md. */
+
+.field-row {
+  display: grid;
+  grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+  gap: var(--mo-space-4);
+  align-items: start;
+}
+
+.field-row.even {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 560px) {
+  .field-row,
+  .field-row.even {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-2);
+  min-width: 0;
+}
+
+.field-row + .field,
+.field + .field,
+.field + .field-row,
+.field-row + .field-row {
+  margin-top: var(--mo-space-4);
+}
+
+/* Inside a row the grid gap sets the space, so a column never drops by a margin. */
+.field-row > .field + .field {
+  margin-top: 0;
+}
+
+.field-help {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--mo-space-3);
+  font-size: var(--mo-text-caption);
+  line-height: var(--mo-leading-caption);
+  color: var(--mo-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.field-help.err {
+  color: var(--mo-danger-text);
+  font-variant-numeric: normal;
+}
+
+.link-action {
+  position: relative;
+  color: var(--mo-accent-text);
+  font-weight: var(--mo-weight-semibold);
+  white-space: nowrap;
+}
+
+/*
+ * The label is small, so a 44px target sits behind it. It stays inside the
+ * button, so it only forwards a click. Read docs/brand/accessibility.md.
+ */
+.link-action::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  min-width: 44px;
+  height: 100%;
+  min-height: 44px;
+  transform: translate(-50%, -50%);
+}
+
+.link-action:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ---------- inputs ---------- */
+
+.input,
+.input-amount {
+  display: flex;
+  align-items: center;
+  gap: var(--mo-space-2);
+  height: var(--mo-control-height);
+  padding-inline: var(--mo-space-3);
+  background: var(--mo-surface-sunken);
+  border: var(--mo-border-width-hairline) solid var(--mo-border);
+  border-radius: var(--mo-radius-1);
+  transition: border-color var(--mo-duration-instant) var(--mo-ease-standard);
+}
+
+.input-amount {
+  height: var(--mo-control-height-lg);
+}
+
+.input:hover,
+.input-amount:hover,
+.input:focus-within,
+.input-amount:focus-within {
+  border-color: var(--mo-border-interactive);
+}
+
+.input.err,
+.input-amount.err {
+  border-color: var(--mo-danger-border);
+}
+
+/*
+ * The ring belongs to the field, not to the inner input. The input is narrower
+ * than the field and taller than its content box, so a ring on it sits wrong.
+ */
+.input:has(input:focus-visible),
+.input-amount:has(input:focus-visible) {
+  outline: var(--mo-border-width-emphasis) solid var(--mo-focus);
+  outline-offset: 2px;
+}
+
+.input input:focus-visible,
+.input-amount input:focus-visible {
+  outline: none;
+}
+
+.input input,
+.input-amount input {
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+}
+
+.input input::placeholder,
+.input-amount input::placeholder {
+  color: var(--mo-text-muted);
+}
+
+.input-amount input {
+  font-size: var(--mo-text-h3);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.input-amount.err input {
+  color: var(--mo-danger-text);
+}
+
+.input-amount .unit {
+  font-size: var(--mo-text-body-sm);
+  color: var(--mo-text-secondary);
+  white-space: nowrap;
+}
+
+.input.address input {
+  font-family: var(--mo-font-mono);
+  font-size: var(--mo-text-mono);
+  font-variant-numeric: slashed-zero;
+  font-variant-ligatures: none;
+}
+
+.input.address input::placeholder {
+  font-family: var(--mo-font-ui);
+  font-size: var(--mo-text-body-sm);
+  font-variant-ligatures: normal;
+}
+
+/* A read-only figure that mirrors the amount field. */
+.figure {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mo-space-4);
+  min-height: var(--mo-control-height-lg);
+  flex-wrap: wrap;
+}
+
+.figure-value {
+  margin-left: auto;
+  min-width: 0;
+  font-size: var(--mo-text-h3);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  /* A full precision amount breaks instead of leaving the card. */
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 479px) {
+  .figure-value {
+    flex: 1 0 100%;
+    font-size: var(--mo-text-h4);
+  }
+}
+
+.figure-value .unit {
+  /* The symbol stays whole, so only the amount breaks. */
+  display: inline-block;
+  margin-left: var(--mo-space-1);
+  font-size: var(--mo-text-body-sm);
+  color: var(--mo-text-secondary);
+  white-space: nowrap;
+}
+
+/* ---------- token identity ---------- */
+
+.token-identity {
+  display: flex;
+  align-items: center;
+  gap: var(--mo-space-3);
+  min-width: 0;
+}
+
+.token-identity .sym {
+  display: flex;
+  align-items: center;
+  gap: var(--mo-space-1);
+  font-size: var(--mo-text-body);
+  font-weight: var(--mo-weight-medium);
+  line-height: 1.25;
+}
+
+.token-identity .net {
+  display: block;
+  font-size: var(--mo-text-caption);
+  line-height: var(--mo-leading-caption);
+  color: var(--mo-text-muted);
+}
+
+.token-identity .net.mono {
+  font-size: var(--mo-text-mono-sm);
+}
+
+.token-identity a.net:hover {
+  color: var(--mo-accent-text);
+}
+
+/* A token logo is contained by our frame. Read docs/brand/iconography.md. */
+.token-img {
+  border-radius: var(--mo-radius-full);
+  border: var(--mo-border-width-hairline) solid var(--mo-border-subtle);
+  background: var(--mo-surface-sunken);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.token-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--mo-radius-full);
+  border: var(--mo-border-width-hairline) solid var(--mo-border-subtle);
+  background: var(--mo-surface-sunken);
+  color: var(--mo-text-secondary);
+  font-family: var(--mo-font-label);
+  font-weight: var(--mo-weight-medium);
+  letter-spacing: var(--mo-tracking-label-sm);
+  flex-shrink: 0;
+}
+
+.vbadge {
+  display: inline-flex;
+  color: var(--mo-accent-text);
+}
+
+.vbadge.warn {
+  color: var(--mo-warning-text);
+}
+
+/* ---------- select ---------- */
+
+.select {
+  position: relative;
+  min-width: 0;
+}
+
+.select-trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--mo-space-3);
+  width: 100%;
+  height: var(--mo-control-height);
+  padding-inline: var(--mo-space-3);
+  background: var(--mo-surface-sunken);
+  border: var(--mo-border-width-hairline) solid var(--mo-border);
+  border-radius: var(--mo-radius-1);
+  text-align: left;
+  transition: border-color var(--mo-duration-instant) var(--mo-ease-standard);
+}
+
+/* A 40px trigger reaches a 44px target. Read docs/brand/accessibility.md. */
+.select-trigger::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  right: 0;
+  bottom: -2px;
+  left: 0;
+}
+
+.select-trigger.lg {
+  height: var(--mo-control-height-lg);
+}
+
+.select-trigger.lg::before {
+  content: none;
+}
+
+.select-trigger:hover,
+.select-trigger[aria-expanded="true"] {
+  border-color: var(--mo-border-interactive);
+}
+
+/* The caret holds still. Rotation is forbidden. Read docs/brand/motion/inventory.md. */
+.select-trigger .caret {
+  margin-left: auto;
+  color: var(--mo-text-muted);
+  transition: color var(--mo-duration-instant) var(--mo-ease-standard);
+}
+
+.select-trigger[aria-expanded="true"] .caret {
+  color: var(--mo-accent-text);
+}
+
+.select-value {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--mo-text-body-sm);
+  font-weight: var(--mo-weight-medium);
+}
+
+.select-menu {
+  position: absolute;
+  top: calc(100% + var(--mo-space-1));
+  left: 0;
+  min-width: 100%;
+  width: max-content;
+  max-width: min(320px, 86vw);
+  max-height: 320px;
+  overflow-y: auto;
+  z-index: var(--mo-z-dropdown);
+  padding: var(--mo-space-1);
+  background: var(--mo-surface-raised);
+  border: var(--mo-border-width-hairline) solid var(--mo-border);
+  border-radius: var(--mo-radius-2);
+  box-shadow: var(--mo-elevation-2);
+  opacity: 0;
+  transform: translateY(var(--mo-distance-micro));
+  pointer-events: none;
+  transition:
+    opacity var(--mo-duration-panel-exit) var(--mo-ease-exit),
+    transform var(--mo-duration-panel-exit) var(--mo-ease-exit);
+}
+
+.select-menu[data-state="open"] {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  transition:
+    opacity var(--mo-duration-normal) var(--mo-ease-enter),
+    transform var(--mo-duration-normal) var(--mo-ease-enter);
+}
+
+.select-menu.right {
+  left: auto;
+  right: 0;
+}
+
+.select-option {
+  display: flex;
+  align-items: center;
+  gap: var(--mo-space-3);
+  width: 100%;
+  min-height: var(--mo-control-height);
+  padding: var(--mo-space-1) var(--mo-space-3);
+  border-radius: var(--mo-radius-1);
+  text-align: left;
+  font-size: var(--mo-text-body-sm);
+  transition: background-color var(--mo-duration-instant) var(--mo-ease-standard);
+}
+
+.select-option:hover {
+  background: var(--mo-surface-sunken);
+}
+
+.select-option .check {
+  margin-left: auto;
+  color: var(--mo-accent-text);
+  opacity: 0;
+}
+
+.select-option[aria-selected="true"] .check {
+  opacity: 1;
+}
+
+.select-note {
+  padding: var(--mo-space-2) var(--mo-space-3);
+  font-size: var(--mo-text-caption);
+  color: var(--mo-text-muted);
+}
+
+/* ---------- segmented control ---------- */
+
+.segmented {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: var(--mo-control-height);
+  background: var(--mo-surface-sunken);
+  border: var(--mo-border-width-hairline) solid var(--mo-border);
+  border-radius: var(--mo-radius-2);
+  overflow: hidden;
+}
+
+/*
+ * The selection rule slides between the segments. Two segments of equal width,
+ * so the travel is one segment. Read docs/brand/motion/inventory.md.
+ */
+.segmented[data-active]::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  height: var(--mo-border-width-emphasis);
+  background: var(--mo-accent-text);
+  transform: translateX(calc(var(--seg-active) * 100%));
+  transition: transform var(--mo-duration-normal) var(--mo-ease-standard);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .segmented[data-active]::after {
+    transition: none;
+  }
+}
+
+.segmented.lg {
+  height: var(--mo-control-height-lg);
+}
+
+.segmented button {
+  flex: 1 1 0;
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mo-space-2);
+  font-size: var(--mo-text-body-sm);
+  font-weight: var(--mo-weight-medium);
+  color: var(--mo-text-secondary);
+  border-bottom: var(--mo-border-width-emphasis) solid transparent;
+  transition:
+    background-color var(--mo-duration-fast) var(--mo-ease-standard),
+    color var(--mo-duration-fast) var(--mo-ease-standard);
+}
+
+.segmented button:hover {
+  color: var(--mo-text-primary);
+}
+
+.segmented button[aria-checked="true"] {
+  background: var(--mo-surface-raised);
+  color: var(--mo-text-primary);
+}
+
+/* Without the sliding rule the selected segment carries its own. */
+.segmented:not([data-active]) button[aria-checked="true"] {
+  border-bottom-color: var(--mo-accent-text);
+}
+
+.segmented .seg-logo {
+  width: 16px;
+  height: 16px;
+  border-radius: var(--mo-radius-1);
+  object-fit: cover;
+}
+
+/* ---------- buttons ---------- */
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mo-space-2);
+  height: var(--mo-control-height);
+  padding-inline: var(--mo-space-4);
+  font-size: var(--mo-text-body-sm);
+  font-weight: var(--mo-weight-semibold);
+  border-radius: var(--mo-radius-2);
+  white-space: nowrap;
+  transition:
+    background-color var(--mo-duration-instant) var(--mo-ease-standard),
+    border-color var(--mo-duration-instant) var(--mo-ease-standard),
+    color var(--mo-duration-instant) var(--mo-ease-standard);
+}
+
+/*
+ * A button draws at 40px or 32px, but a pointer needs 44px. The target grows
+ * upward and downward only, so a neighbour to the side keeps its gap.
+ * Read docs/brand/accessibility.md.
+ */
+.btn::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  right: 0;
+  bottom: -2px;
+  left: 0;
+}
+
+.btn.sm {
+  height: 32px;
+  padding-inline: var(--mo-space-3);
+  font-size: var(--mo-text-caption);
+}
+
+.btn.sm::before {
+  top: -6px;
+  bottom: -6px;
+}
+
+.btn.lg {
+  height: var(--mo-control-height-lg);
+  padding-inline: var(--mo-space-6);
+  font-size: var(--mo-text-body);
+}
+
+.btn.lg::before {
+  content: none;
+}
+
+.btn.block {
+  width: 100%;
+}
+
+.btn.primary {
+  background: var(--mo-accent-solid);
+  color: var(--mo-on-accent-solid);
+}
+
+.btn.danger {
+  background: var(--mo-danger-solid);
+  color: var(--mo-on-danger-solid);
+}
+
+.btn.secondary {
+  border: var(--mo-border-width-hairline) solid var(--mo-border);
+  color: var(--mo-text-primary);
+}
+
+.btn.secondary:hover:not(:disabled) {
+  border-color: var(--mo-border-interactive);
+  background: var(--mo-surface-sunken);
+}
+
+.btn.ghost {
+  color: var(--mo-text-secondary);
+}
+
+.btn.ghost:hover:not(:disabled) {
+  color: var(--mo-text-primary);
+  background: var(--mo-surface-sunken);
+}
+
+.btn.primary::after,
+.btn.danger::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--mo-press-overlay);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--mo-duration-instant) var(--mo-ease-standard);
+}
+
+.btn.primary:hover:not(:disabled)::after,
+.btn.danger:hover:not(:disabled)::after {
+  opacity: 0.06;
+}
+
+.btn.primary:active:not(:disabled)::after,
+.btn.danger:active:not(:disabled)::after {
+  opacity: 0.12;
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mo-space-1);
+  color: var(--mo-accent-text);
+  font-weight: var(--mo-weight-medium);
+}
+
+.btn-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.icon-button {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--mo-radius-2);
+  color: var(--mo-text-secondary);
+  transition:
+    color var(--mo-duration-instant) var(--mo-ease-standard),
+    background-color var(--mo-duration-instant) var(--mo-ease-standard);
+}
+
+.icon-button:hover {
+  color: var(--mo-text-primary);
+  background: var(--mo-surface-sunken);
+}
+
+/* ---------- chips and notices ---------- */
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mo-space-1);
+  height: 24px;
+  padding-inline: var(--mo-space-2);
+  border-radius: var(--mo-radius-full);
+  border: var(--mo-border-width-hairline) solid var(--mo-border);
+  background: var(--mo-surface-sunken);
+  color: var(--mo-text-muted);
+  font-family: var(--mo-font-label);
+  font-size: var(--mo-text-label-sm);
+  font-weight: var(--mo-weight-medium);
+  letter-spacing: var(--mo-tracking-label-sm);
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.status-chip svg {
+  width: 12px;
+  height: 12px;
+}
+
+.status-chip.open {
+  background: var(--mo-accent-surface);
+  border-color: var(--mo-accent-border);
+  color: var(--mo-accent-text);
+}
+
+.status-chip.settled {
+  background: var(--mo-success-surface);
+  border-color: var(--mo-success-border);
+  color: var(--mo-success-text);
+}
+
+.status-chip.created {
+  background: var(--mo-info-surface);
+  border-color: var(--mo-info-border);
+  color: var(--mo-info-text);
+}
+
+.status-chip.expired {
+  background: var(--mo-warning-surface);
+  border-color: var(--mo-warning-border);
+  color: var(--mo-warning-text);
+}
+
+.demo-tag {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding-inline: var(--mo-space-2);
+  border-radius: var(--mo-radius-full);
+  border: var(--mo-border-width-hairline) solid var(--mo-warning-border);
+  background: var(--mo-warning-surface);
+  color: var(--mo-warning-text);
+  font-family: var(--mo-font-label);
+  font-size: var(--mo-text-label-sm);
+  font-weight: var(--mo-weight-medium);
+  letter-spacing: var(--mo-tracking-label-sm);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* A notice arrives with the inline error motion. The travel is a token, so a
+ * reduce request turns it into a crossfade. Read docs/brand/motion/inventory.md. */
+.notice {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--mo-space-3);
+  animation: mo-notice-in var(--mo-duration-normal) var(--mo-ease-enter);
+  padding: var(--mo-space-4);
+  font-size: var(--mo-text-body-sm);
+  line-height: var(--mo-leading-body-sm);
+  border: var(--mo-border-width-hairline) solid var(--mo-info-border);
+  border-radius: var(--mo-radius-2);
+  background: var(--mo-info-surface);
+  color: var(--mo-info-text);
+}
+
+.notice.warn {
+  border-color: var(--mo-warning-border);
+  background: var(--mo-warning-surface);
+  color: var(--mo-warning-text);
+}
+
+.notice.err {
+  border-color: var(--mo-danger-border);
+  background: var(--mo-danger-surface);
+  color: var(--mo-danger-text);
+}
+
+.notice.ok {
+  border-color: var(--mo-success-border);
+  background: var(--mo-success-surface);
+  color: var(--mo-success-text);
+}
+
+.notice svg {
+  margin-top: 2px;
+}
+
+.notice strong {
+  display: block;
+  font-weight: var(--mo-weight-semibold);
+}
+
+.footnote {
+  font-size: var(--mo-text-caption);
+  line-height: var(--mo-leading-caption);
+  color: var(--mo-text-muted);
+}
+
+.footnote.warn {
+  color: var(--mo-warning-text);
+}
+
+.copy-row {
+  display: flex;
+  align-items: center;
+  gap: var(--mo-space-3);
+  padding: var(--mo-space-2) var(--mo-space-2) var(--mo-space-2) var(--mo-space-3);
+  background: var(--mo-surface-sunken);
+  border: var(--mo-border-width-hairline) solid var(--mo-border-subtle);
+  border-radius: var(--mo-radius-2);
+  font-size: var(--mo-text-caption);
+  color: var(--mo-text-muted);
+}
+
+.copy-row .url {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------- spinner and skeleton ---------- */
+
+.spin {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--mo-border);
+  border-top-color: currentColor;
+  border-radius: var(--mo-radius-full);
+  animation: mo-spin var(--mo-duration-spinner) var(--mo-ease-linear) infinite;
+}
+
+.skeleton {
+  display: block;
+  height: 16px;
+  background: var(--mo-border-subtle);
+  border-radius: var(--mo-radius-1);
+  animation: mo-pulse var(--mo-duration-skeleton) var(--mo-ease-standard) infinite;
+}
+
+@keyframes mo-notice-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--mo-distance-micro));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mo-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes mo-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+/* Reserved positions for future verified markets in the token menu. */
+.select-option.placeholder {
+  pointer-events: none;
+  cursor: default;
+}

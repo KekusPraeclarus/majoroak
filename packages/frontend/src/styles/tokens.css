@@ -1,0 +1,180 @@
+/* Type, space, shape, motion, and grid tokens. Read docs/brand/design-tokens.md. */
+
+:root {
+  --mo-font-display: "Playfair", "Playfair Display", Georgia, "Times New Roman", serif;
+  --mo-font-label: "Jost", "Century Gothic", Futura, system-ui, sans-serif;
+  --mo-font-ui: "Inter", "Inter Fallback", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mo-font-mono: "MajorOak Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --mo-text-display-1: clamp(2.75rem, 1.6rem + 4.2vw, 4.5rem);
+  --mo-text-display-2: clamp(2.25rem, 1.5rem + 2.8vw, 3.5rem);
+  --mo-text-display-3: clamp(1.875rem, 1.4rem + 1.8vw, 2.75rem);
+  --mo-text-h1: 2.25rem;
+  --mo-text-h2: 1.75rem;
+  --mo-text-h3: 1.375rem;
+  --mo-text-h4: 1.125rem;
+  --mo-text-body-lg: 1.125rem;
+  --mo-text-body: 1rem;
+  --mo-text-body-sm: 0.875rem;
+  --mo-text-caption: 0.8125rem;
+  --mo-text-micro: 0.75rem;
+  --mo-text-label: 0.75rem;
+  --mo-text-label-sm: 0.6875rem;
+  --mo-text-mono: 0.8125rem;
+  --mo-text-mono-sm: 0.75rem;
+
+  --mo-leading-h1: 1.2;
+  --mo-leading-h2: 1.25;
+  --mo-leading-h3: 1.3;
+  --mo-leading-h4: 1.4;
+  --mo-leading-body: 1.6;
+  --mo-leading-body-sm: 1.55;
+  --mo-leading-caption: 1.45;
+  --mo-leading-label: 1.2;
+
+  --mo-tracking-wordmark: 0.18em;
+  --mo-tracking-label: 0.24em;
+  --mo-tracking-label-md: 0.16em;
+  --mo-tracking-label-sm: 0.08em;
+  --mo-weight-regular: 400;
+  --mo-weight-medium: 500;
+  --mo-weight-semibold: 600;
+  --mo-weight-bold: 700;
+
+  --mo-space-0: 0;
+  --mo-space-1: 4px;
+  --mo-space-2: 8px;
+  --mo-space-3: 12px;
+  --mo-space-4: 16px;
+  --mo-space-5: 20px;
+  --mo-space-6: 24px;
+  --mo-space-8: 32px;
+  --mo-space-10: 40px;
+  --mo-space-12: 48px;
+  --mo-space-16: 64px;
+  --mo-space-20: 80px;
+  --mo-space-24: 96px;
+  --mo-space-32: 128px;
+
+  --mo-radius-0: 0;
+  --mo-radius-1: 2px;
+  --mo-radius-2: 4px;
+  --mo-radius-3: 8px;
+  --mo-radius-full: 9999px;
+  --mo-border-width-hairline: 1px;
+  --mo-border-width-emphasis: 2px;
+
+  --mo-elevation-0: none;
+  --mo-elevation-1: none;
+  --mo-elevation-2: none;
+  --mo-elevation-3: 0 16px 40px rgb(5 19 9 / 0.5);
+
+  --mo-duration-instant: 80ms;
+  --mo-duration-fast: 120ms;
+  --mo-duration-normal: 180ms;
+  --mo-duration-panel: 240ms;
+  --mo-duration-panel-exit: 160ms;
+  --mo-duration-spinner: 1000ms;
+  --mo-duration-skeleton: 1600ms;
+  --mo-ease-standard: cubic-bezier(0.2, 0, 0.38, 0.9);
+  --mo-ease-enter: cubic-bezier(0, 0, 0.38, 0.9);
+  --mo-ease-exit: cubic-bezier(0.2, 0, 1, 0.9);
+  --mo-ease-linear: linear;
+  --mo-distance-micro: 4px;
+  --mo-distance-small: 8px;
+  --mo-distance-max: 12px;
+  --mo-stagger: 40ms;
+
+  --mo-z-header: 100;
+  --mo-z-dropdown: 200;
+  --mo-z-tooltip: 300;
+  --mo-z-scrim: 400;
+  --mo-z-modal: 410;
+  --mo-z-toast: 500;
+  --mo-z-wallet: 600;
+
+  /* Grid. Read docs/brand/layout-and-grid.md. */
+  --mo-page-margin: var(--mo-space-4);
+  --mo-content-max: 100%;
+  --mo-column-form: 640px;
+  --mo-column-card: 720px;
+  --mo-column-prose: 680px;
+
+  --mo-row-height: 56px;
+  --mo-control-height: 40px;
+  --mo-control-height-lg: 48px;
+  --mo-panel-pad: var(--mo-space-6);
+
+  --mo-press-overlay: rgb(255 255 255);
+  --mo-scrim: rgb(5 19 9 / 0.72);
+
+  color-scheme: dark;
+}
+
+@media (min-width: 480px) {
+  :root {
+    --mo-page-margin: var(--mo-space-6);
+  }
+}
+
+@media (min-width: 768px) {
+  :root {
+    --mo-page-margin: var(--mo-space-8);
+    --mo-panel-pad: var(--mo-space-8);
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --mo-page-margin: var(--mo-space-10);
+    --mo-content-max: 1200px;
+  }
+}
+
+@media (min-width: 1440px) {
+  :root {
+    --mo-page-margin: var(--mo-space-16);
+    --mo-content-max: 1320px;
+  }
+}
+
+@media (min-width: 1920px) {
+  :root {
+    --mo-content-max: 1440px;
+  }
+}
+
+[data-theme="light"] {
+  --mo-elevation-1: 0 1px 2px rgb(30 48 36 / 0.06);
+  --mo-elevation-2: 0 4px 12px rgb(30 48 36 / 0.08);
+  --mo-elevation-3: 0 16px 40px rgb(30 48 36 / 0.12);
+  --mo-press-overlay: rgb(0 0 0);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    --mo-elevation-1: 0 1px 2px rgb(30 48 36 / 0.06);
+    --mo-elevation-2: 0 4px 12px rgb(30 48 36 / 0.08);
+    --mo-elevation-3: 0 16px 40px rgb(30 48 36 / 0.12);
+    --mo-press-overlay: rgb(0 0 0);
+    color-scheme: light;
+  }
+}
+
+/* Reduce is not remove. Read docs/brand/motion/reduced-motion.md. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --mo-duration-instant: 0ms;
+    --mo-duration-fast: 0ms;
+    --mo-duration-normal: 80ms;
+    --mo-duration-panel: 80ms;
+    --mo-duration-panel-exit: 80ms;
+    --mo-duration-spinner: 1600ms;
+    --mo-duration-skeleton: 2400ms;
+    --mo-distance-micro: 0px;
+    --mo-distance-small: 0px;
+    --mo-distance-max: 0px;
+    --mo-stagger: 0ms;
+  }
+}

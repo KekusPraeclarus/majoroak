@@ -1,0 +1,606 @@
+/* Shell, page frames, header, footer, and the framed panel. */
+
+.shell {
+  width: 100%;
+  max-width: var(--mo-content-max);
+  margin-inline: auto;
+  padding-inline: var(--mo-page-margin);
+}
+
+/*
+ * A route change crossfades the page. Opacity only, so nothing shifts and no
+ * fixed child is trapped. Read docs/brand/motion/inventory.md.
+ */
+.page {
+  padding-block: var(--mo-space-12) var(--mo-space-16);
+  animation: mo-page-in var(--mo-duration-normal) var(--mo-ease-enter);
+}
+
+@keyframes mo-page-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (min-width: 1024px) {
+  .page {
+    padding-block: var(--mo-space-16) var(--mo-space-20);
+  }
+}
+
+.page-column {
+  width: 100%;
+  max-width: var(--mo-column-form);
+  margin-inline: auto;
+}
+
+.page-column.prose {
+  max-width: var(--mo-column-prose);
+  margin-inline: 0;
+}
+
+.page-head {
+  margin-bottom: var(--mo-space-10);
+}
+
+.page-head.tight {
+  margin-bottom: var(--mo-space-6);
+}
+
+.page-title {
+  display: flex;
+  align-items: center;
+  gap: var(--mo-space-3);
+  flex-wrap: wrap;
+  font-family: var(--mo-font-display);
+  font-weight: 500;
+  font-variation-settings: "opsz" 36, "wdth" 100, "wght" 500;
+  font-size: var(--mo-text-h1);
+  line-height: var(--mo-leading-h1);
+}
+
+.page-sub {
+  margin-top: var(--mo-space-4);
+  font-size: var(--mo-text-body-lg);
+  line-height: var(--mo-leading-body);
+  color: var(--mo-text-secondary);
+  max-width: 60ch;
+}
+
+.page-sub.label {
+  margin-top: var(--mo-space-3);
+  font-size: var(--mo-text-label);
+}
+
+.title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mo-space-4);
+  flex-wrap: wrap;
+}
+
+.section + .section {
+  margin-top: var(--mo-space-12);
+}
+
+@media (min-width: 1024px) {
+  .section + .section {
+    margin-top: var(--mo-space-16);
+  }
+}
+
+.section-head {
+  margin-bottom: var(--mo-space-8);
+}
+
+.section-head .eyebrow {
+  display: block;
+  margin-bottom: var(--mo-space-2);
+}
+
+.stack-2 {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-2);
+}
+
+.stack-3 {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-3);
+}
+
+.stack-4 {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-4);
+}
+
+.stack-6 {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-6);
+}
+
+/* The one permitted ornament. Read docs/brand/layout-and-grid.md. */
+.lozenge-rule {
+  display: flex;
+  align-items: center;
+  gap: var(--mo-space-4);
+}
+
+.lozenge-rule::before,
+.lozenge-rule::after {
+  content: "";
+  flex: 1;
+  height: var(--mo-border-width-hairline);
+  background: var(--mo-border-subtle);
+}
+
+.lozenge {
+  width: 8px;
+  height: 8px;
+  background: var(--mo-accent-text);
+  transform: rotate(45deg);
+}
+
+/* ---------- header ---------- */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: var(--mo-z-header);
+  background: var(--mo-canvas);
+  border-bottom: var(--mo-border-width-hairline) solid var(--mo-border-subtle);
+}
+
+.header-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--mo-space-8);
+  height: 64px;
+}
+
+.brand {
+  /* Inline, so the link and its focus ring hug the mark in the footer column. */
+  display: inline-flex;
+  align-items: center;
+  /* The mark is 32px, so the link pads out to a 44px target. */
+  min-height: 44px;
+  padding-inline: var(--mo-space-1);
+  margin-inline: calc(var(--mo-space-1) * -1);
+  color: var(--mo-text-primary);
+}
+
+/*
+ * The wordmark aspect is 4.240. The footer sets the drawn width from the
+ * tagline ink. Read docs/brand/logo.md.
+ */
+.brand-wordmark {
+  display: block;
+  width: 100%;
+  aspect-ratio: 6345 / 1496;
+  background: currentColor;
+  -webkit-mask: var(--lockup) center / contain no-repeat;
+  mask: var(--lockup) center / contain no-repeat;
+}
+
+/* The header uses the emblem. The footer uses the wordmark. */
+.brand-emblem {
+  display: none;
+  width: 32px;
+  height: 32px;
+  background: currentColor;
+  -webkit-mask: var(--lockup) center / contain no-repeat;
+  mask: var(--lockup) center / contain no-repeat;
+}
+
+.header .brand-emblem {
+  display: block;
+  color: var(--mo-text-secondary);
+  transition: color var(--mo-duration-instant) var(--mo-ease-standard);
+}
+
+.header .brand:hover .brand-emblem {
+  color: var(--mo-text-primary);
+}
+
+.nav {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: var(--mo-space-6);
+  height: 100%;
+  /* The nav takes the free space, so the controls sit at the right edge. */
+  margin-right: auto;
+}
+
+.nav a {
+  display: flex;
+  align-items: center;
+  /* A label never shrinks, because a squeezed nowrap label spills its box. */
+  flex: none;
+  white-space: nowrap;
+  font-size: var(--mo-text-body-sm);
+  font-weight: var(--mo-weight-medium);
+  color: var(--mo-text-secondary);
+  transition: color var(--mo-duration-instant) var(--mo-ease-standard);
+}
+
+.nav a:hover {
+  color: var(--mo-text-primary);
+}
+
+.nav a.active {
+  color: var(--mo-text-primary);
+}
+
+/*
+ * The task items and the reading items are different work, so a hairline sets
+ * them apart. It carries no meaning a screen reader needs.
+ */
+.nav-divide {
+  flex: none;
+  align-self: center;
+  width: var(--mo-border-width-hairline);
+  height: 18px;
+  background: var(--mo-border-subtle);
+}
+
+/*
+ * The page indicator. It holds a 100px base width and scales, so the slide
+ * animates transform alone. Read docs/brand/motion/inventory.md.
+ *
+ * It sits at the top and the script translates it onto the active item's foot.
+ * A bottom offset would strand it on the last row when the nav wraps.
+ */
+.nav-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: var(--mo-border-width-emphasis);
+  background: var(--mo-accent-text);
+  transform-origin: left center;
+  pointer-events: none;
+}
+
+.nav-indicator.armed {
+  transition:
+    transform var(--mo-duration-normal) var(--mo-ease-standard),
+    opacity var(--mo-duration-fast) var(--mo-ease-standard);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-indicator.armed {
+    transition: none;
+  }
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--mo-space-2);
+}
+
+.chain-indicator {
+  display: flex;
+  align-items: center;
+  gap: var(--mo-space-2);
+  padding-inline: var(--mo-space-2);
+  font-size: var(--mo-text-caption);
+  color: var(--mo-text-muted);
+  white-space: nowrap;
+}
+
+.chain-indicator .dot-live {
+  width: 6px;
+  height: 6px;
+}
+
+.chain-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mo-space-4);
+  flex-wrap: wrap;
+  padding-block: var(--mo-space-3);
+  background: var(--mo-warning-surface);
+  border-bottom: var(--mo-border-width-hairline) solid var(--mo-warning-border);
+  color: var(--mo-warning-text);
+  font-size: var(--mo-text-body-sm);
+}
+
+.chain-banner button {
+  font-weight: var(--mo-weight-semibold);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/*
+ * The bar needs 920px for the mark, five items, and the full controls. Below
+ * 1024 the chain indicator gives its width back, because it confirms a state
+ * the wrong-chain banner already reports when it matters.
+ */
+@media (max-width: 1023px) {
+  .chain-indicator {
+    display: none;
+  }
+}
+
+/*
+ * Even without the indicator the bar needs 730px here, so the nav takes a row
+ * of its own. The mark and the controls keep the first row.
+ */
+@media (max-width: 900px) {
+  .header-bar {
+    flex-wrap: wrap;
+    height: auto;
+    padding-block: var(--mo-space-2) 0;
+    gap: var(--mo-space-5);
+  }
+
+  .nav {
+    order: 3;
+    width: 100%;
+    height: 44px;
+    margin-right: 0;
+    gap: var(--mo-space-4);
+  }
+
+  .header-right {
+    margin-left: auto;
+  }
+}
+
+/* A short row reads better spread edge to edge than stacked at the left. */
+@media (max-width: 560px) {
+  .nav {
+    justify-content: space-between;
+  }
+
+  /* The spread already parts the groups, and the hairline would take a gap. */
+  .nav-divide {
+    display: none;
+  }
+}
+
+/*
+ * Below 360px the five items no longer fit one row, so the row splits. It
+ * splits at the group, so the tasks take one row and the reading takes the
+ * next. A free wrap would leave one item alone. Each anchor holds its own 44px
+ * band, so each row stays a real target.
+ */
+@media (max-width: 359px) {
+  .nav {
+    flex-wrap: wrap;
+    height: auto;
+    row-gap: 0;
+  }
+
+  .nav a {
+    min-height: 44px;
+  }
+
+  .nav-divide {
+    display: block;
+    flex-basis: 100%;
+    width: 100%;
+    height: 0;
+    background: none;
+  }
+}
+
+/* ---------- framed panel ---------- */
+
+.panel {
+  background: var(--mo-surface);
+  border: var(--mo-border-width-hairline) solid var(--mo-border);
+  border-radius: var(--mo-radius-2);
+  box-shadow: var(--mo-elevation-1);
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mo-space-4);
+  min-height: 48px;
+  padding-inline: var(--mo-panel-pad);
+  border-bottom: var(--mo-border-width-hairline) solid var(--mo-border-subtle);
+}
+
+@media (min-width: 768px) {
+  .panel-head {
+    min-height: 56px;
+  }
+}
+
+.panel-body {
+  padding: var(--mo-panel-pad);
+}
+
+.panel-foot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-4);
+  padding: var(--mo-panel-pad);
+  border-top: var(--mo-border-width-hairline) solid var(--mo-border-subtle);
+}
+
+.panel-foot.actions {
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: var(--mo-space-3);
+}
+
+/* A divider reaches both edges of a padded panel. No inset. */
+.panel-rule {
+  height: var(--mo-border-width-hairline);
+  background: var(--mo-border-subtle);
+  margin-block: var(--mo-space-8);
+  margin-inline: calc(var(--mo-panel-pad) * -1);
+}
+
+.panel-rule.ornament {
+  height: auto;
+  background: none;
+}
+
+.block + .block {
+  margin-top: var(--mo-space-8);
+}
+
+.panel-rule + .block {
+  margin-top: 0;
+}
+
+.panel-body .receipt:not(:first-child),
+.panel-body .chart:not(:first-child) {
+  margin-top: var(--mo-space-6);
+}
+
+.page-column > .footnote {
+  margin-top: var(--mo-space-6);
+}
+
+.block-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--mo-space-2) var(--mo-space-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--mo-space-4);
+}
+
+/* ---------- footer ---------- */
+
+.footer {
+  flex-shrink: 0;
+  background: var(--mo-surface);
+  border-top: var(--mo-border-width-hairline) solid var(--mo-border-subtle);
+}
+
+.footer-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--mo-space-10);
+  padding-block: var(--mo-space-12) var(--mo-space-8);
+}
+
+@media (min-width: 768px) {
+  .footer-inner {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  }
+}
+
+/*
+ * The tagline ink sets the column. The wordmark stretches to that width, not
+ * to the disclosure measure. Read docs/brand/logo.md.
+ */
+.footer-identity {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: max-content;
+}
+
+.footer-identity .brand {
+  width: 100%;
+  padding-inline: 0;
+  margin-inline: 0;
+}
+
+.footer-identity .brand-wordmark {
+  min-width: 0;
+}
+
+.footer-tagline {
+  margin-top: var(--mo-space-4);
+  width: max-content;
+  font-family: var(--mo-font-display);
+  font-size: var(--mo-text-body);
+  font-variation-settings: "opsz" 18, "wdth" 100, "wght" 400;
+  color: var(--mo-text-secondary);
+  white-space: nowrap;
+}
+
+.footer-disclosure {
+  margin-top: var(--mo-space-4);
+  font-size: var(--mo-text-caption);
+  line-height: var(--mo-leading-caption);
+  color: var(--mo-text-secondary);
+  max-width: 68ch;
+}
+
+.footer-factory {
+  display: flex;
+  align-items: baseline;
+  gap: var(--mo-space-2);
+  margin-top: var(--mo-space-4);
+  font-size: var(--mo-text-caption);
+  color: var(--mo-text-muted);
+}
+
+.footer-factory a {
+  color: var(--mo-text-secondary);
+}
+
+.footer-factory a:hover {
+  color: var(--mo-accent-text);
+}
+
+.footer-cols {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--mo-space-12);
+}
+
+@media (min-width: 768px) {
+  .footer-cols {
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 680px) {
+  .footer-cols {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--mo-space-8);
+  }
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mo-space-3);
+}
+
+.footer-col-title {
+  margin-bottom: var(--mo-space-1);
+}
+
+.footer-col a {
+  font-size: var(--mo-text-body-sm);
+  color: var(--mo-text-secondary);
+  transition: color var(--mo-duration-instant) var(--mo-ease-standard);
+}
+
+.footer-col a:hover {
+  color: var(--mo-text-primary);
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--mo-space-4);
+  flex-wrap: wrap;
+  padding-block: var(--mo-space-4) var(--mo-space-6);
+  border-top: var(--mo-border-width-hairline) solid var(--mo-border-subtle);
+  font-size: var(--mo-text-caption);
+  color: var(--mo-text-muted);
+}

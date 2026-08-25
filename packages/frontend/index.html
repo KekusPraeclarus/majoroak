@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MajorOak — Over-the-counter escrow on Robinhood Chain</title>
+    <meta
+      name="description"
+      content="Over-the-counter escrow for ERC-20 deals on Robinhood Chain. Settled in one transaction."
+    />
+    <meta name="theme-color" content="#0E2316" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#F7F4EC" media="(prefers-color-scheme: light)" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta property="og:site_name" content="MajorOak" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="MajorOak — Over-the-counter escrow on Robinhood Chain" />
+    <meta
+      property="og:description"
+      content="Over-the-counter escrow for ERC-20 deals on Robinhood Chain. Settled in one transaction."
+    />
+    <meta property="og:url" content="https://majoroak.app" />
+    <meta property="og:image" content="https://majoroak.app/cover.png" />
+    <meta property="og:image:width" content="1920" />
+    <meta property="og:image:height" content="1080" />
+    <meta
+      property="og:image:alt"
+      content="MajorOak emblem above the words MAJOR OAK SETTLEMENTS."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://majoroak.app/cover.png" />
+  </head>
+  <body>
+    <script>
+      (function () {
+        var t = localStorage.getItem("theme")
+        if (t === "light" || t === "dark") {
+          document.documentElement.setAttribute("data-theme", t)
+        } else {
+          document.documentElement.removeAttribute("data-theme")
+        }
+      })()
+    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
